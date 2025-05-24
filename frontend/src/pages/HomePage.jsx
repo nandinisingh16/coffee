@@ -65,16 +65,16 @@ const HomePage = () => {
         )}
       </div>
 
-      {recommendedUsers?.length > 0 && (
-        <div className='col-span-1 lg:col-span-1 hidden lg:block'>
-          <div className='bg-[#f4e8da] rounded-xl shadow-md p-4 border border-[#dec3a5]'>
-            <h2 className='text-lg font-semibold text-[#5a3e2b] mb-4'>Baristas & Café Owners You May Know</h2>
-            {recommendedUsers?.map((user) => (
-              <RecommendedUser key={user._id} user={user} />
-            ))}
-          </div>
-        </div>
-      )}
+     {recommendedUsers?.length > 0 && (
+  <div className='col-span-1 lg:col-span-1 mb-6'>
+    <div className='bg-[#f4e8da] rounded-xl shadow-md p-4 border border-[#dec3a5]'>
+      <h2 className='text-lg font-semibold text-[#5a3e2b] mb-4'>Baristas & Café Owners You May Know</h2>
+      {recommendedUsers?.map((user) => (
+        <RecommendedUser key={user._id} user={user} />
+      ))}
+    </div>
+  </div>
+)}
     </div>
   );
 };

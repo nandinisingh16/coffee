@@ -111,9 +111,9 @@ const NotificationsPage = () => {
 	return (
 		<div className='grid grid-cols-1 lg:grid-cols-4 gap-6 bg-base-100 min-h-screen p-4'>
 			{/* Sidebar */}
-			<div className='hidden lg:block lg:col-span-1'>
-				<Sidebar user={authUser} />
-			</div>
+			<div className='col-span-1 lg:col-span-1 mb-6'>
+  <Sidebar user={authUser} />
+</div>
 			{/* Main Content */}
 			<div className='col-span-1 lg:col-span-3'>
 				<div className='bg-secondary rounded-xl shadow-lg p-6'>
