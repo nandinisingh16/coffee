@@ -4,22 +4,33 @@ import daisyui from "daisyui";
 export default {
 	content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
 	theme: {
-		extend: {},
+		extend: {
+			colors: {
+				coffee: {
+					light: "#fdf6ee",
+					DEFAULT: "#c69c6d",
+					dark: "#6f4e37",
+				},
+			},
+			fontFamily: {
+				serif: ["'Playfair Display'", "serif"],
+			},
+		},
 	},
 	plugins: [daisyui],
 	daisyui: {
 		themes: [
 			{
-				linkedin: {
-					primary: "#0A66C2", // LinkedIn Blue
-					secondary: "#FFFFFF", // White
-					accent: "#7FC15E", // LinkedIn Green (for accents)
-					neutral: "#000000", // Black (for text)
-					"base-100": "#F3F2EF", // Light Gray (background)
-					info: "#5E5E5E", // Dark Gray (for secondary text)
-					success: "#057642", // Dark Green (for success messages)
-					warning: "#F5C75D", // Yellow (for warnings)
-					error: "#CC1016", // Red (for errors)
+				coffeehouse: {
+					primary: "#5C4033",      // Rich Coffee Brown
+					secondary: "#D7B49E",    // Latte Beige
+					accent: "#A47551",       // Espresso
+					neutral: "#3B2F2F",      // Deep Roast
+					"base-100": "#FCF5ED",   // Cream Background
+					info: "#9D6B53",         // Mocha Hint
+					success: "#6F4E37",      // Medium Roast
+					warning: "#E1B382",      // Toasted Almond
+					error: "#A0522D",        // Burnt Cinnamon
 				},
 			},
 		],

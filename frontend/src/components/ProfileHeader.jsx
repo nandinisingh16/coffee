@@ -10,7 +10,20 @@ const ProfileHeader = ({ userData, onSave, isOwnProfile }) => {
 	const [editedData, setEditedData] = useState({});
 	const queryClient = useQueryClient();
 
-	const { data: authUser } = useQuery({ queryKey: ["authUser"] });
+	const { data: authUser } = useQuery({
+		queryKey: ["authUser"],
+		queryFn: async () => {
+			try {
+				const res = await axiosInstance.get("/auth/me");
+				return res.data;
+			} catch (err) {
+				if (err.response && err.response.status === 401) {
+					return null;
+				}
+				throw err;
+			}
+		},
+	});
 
 	const { data: connectionStatus, refetch: refetchConnectionStatus } = useQuery({
 		queryKey: ["connectionStatus", userData._id],
@@ -207,12 +220,14 @@ const ProfileHeader = ({ userData, onSave, isOwnProfile }) => {
 					{isEditing ? (
 						<input
 							type='text'
-							value={editedData.headline ?? userData.headline}
+							value={editedData.headline ?? (userData.headline === "Linkedin User" ? "Member" : userData.headline)}
 							onChange={(e) => setEditedData({ ...editedData, headline: e.target.value })}
 							className='text-gray-600 text-center w-full'
 						/>
 					) : (
-						<p className='text-gray-600'>{userData.headline}</p>
+						<p className='text-gray-600'>
+							{userData.headline === "Member" ? "Member" : userData.headline}
+						</p>
 					)}
 
 					<div className='flex justify-center items-center mt-2'>

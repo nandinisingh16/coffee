@@ -7,7 +7,21 @@ import Sidebar from "../components/Sidebar";
 import { formatDistanceToNow } from "date-fns";
 
 const NotificationsPage = () => {
-	const { data: authUser } = useQuery({ queryKey: ["authUser"] });
+	// Provide queryFn for authUser
+	const { data: authUser } = useQuery({
+		queryKey: ["authUser"],
+		queryFn: async () => {
+			try {
+				const res = await axiosInstance.get("/auth/me");
+				return res.data;
+			} catch (err) {
+				if (err.response && err.response.status === 401) {
+					return null;
+				}
+				throw err;
+			}
+		},
+	});
 
 	const queryClient = useQueryClient();
 
@@ -35,7 +49,6 @@ const NotificationsPage = () => {
 		switch (type) {
 			case "like":
 				return <ThumbsUp className='text-blue-500' />;
-
 			case "comment":
 				return <MessageSquare className='text-green-500' />;
 			case "connectionAccepted":
@@ -96,13 +109,15 @@ const NotificationsPage = () => {
 	};
 
 	return (
-		<div className='grid grid-cols-1 lg:grid-cols-4 gap-6'>
-			<div className='col-span-1 lg:col-span-1'>
+		<div className='grid grid-cols-1 lg:grid-cols-4 gap-6 bg-base-100 min-h-screen p-4'>
+			{/* Sidebar */}
+			<div className='hidden lg:block lg:col-span-1'>
 				<Sidebar user={authUser} />
 			</div>
+			{/* Main Content */}
 			<div className='col-span-1 lg:col-span-3'>
-				<div className='bg-white rounded-lg shadow p-6'>
-					<h1 className='text-2xl font-bold mb-6'>Notifications</h1>
+				<div className='bg-secondary rounded-xl shadow-lg p-6'>
+					<h1 className='text-2xl font-serif font-bold mb-6 text-coffee-dark'>Notifications</h1>
 
 					{isLoading ? (
 						<p>Loading notifications...</p>
@@ -111,8 +126,8 @@ const NotificationsPage = () => {
 							{notifications.data.map((notification) => (
 								<li
 									key={notification._id}
-									className={`bg-white border rounded-lg p-4 my-4 transition-all hover:shadow-md ${
-										!notification.read ? "border-blue-500" : "border-gray-200"
+									className={`bg-coffee-light border rounded-xl p-4 my-4 transition-all hover:shadow-md ${
+										!notification.read ? "border-accent" : "border-gray-200"
 									}`}
 								>
 									<div className='flex items-start justify-between'>
@@ -165,9 +180,19 @@ const NotificationsPage = () => {
 							))}
 						</ul>
 					) : (
-						<p>No notification at the moment.</p>
+						<div className="bg-coffee-light rounded-xl shadow p-6 text-center">
+							<Eye size={48} className="mx-auto text-coffee-dark mb-4" />
+							<h3 className="text-xl font-serif font-semibold mb-2">No Notifications</h3>
+							<p className="text-coffee-dark">
+								You’re all caught up! Sip your coffee and relax.
+							</p>
+						</div>
 					)}
 				</div>
+			</div>
+			{/* Sidebar for mobile */}
+			<div className="lg:hidden mb-6">
+				<Sidebar user={authUser} />
 			</div>
 		</div>
 	);

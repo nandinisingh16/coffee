@@ -6,16 +6,38 @@ import FriendRequest from "../components/FriendRequest";
 import UserCard from "../components/UserCard";
 
 const NetworkPage = () => {
-	const { data: user } = useQuery({ queryKey: ["authUser"] });
-
-	const { data: connectionRequests } = useQuery({
-		queryKey: ["connectionRequests"],
-		queryFn: () => axiosInstance.get("/connections/requests"),
+	// Fetch authenticated user
+	const { data: user } = useQuery({
+		queryKey: ["authUser"],
+		queryFn: async () => {
+			try {
+				const res = await axiosInstance.get("/auth/me");
+				return res.data;
+			} catch (err) {
+				if (err.response && err.response.status === 401) {
+					return null;
+				}
+				throw err;
+			}
+		},
 	});
 
+	// Fetch connection requests
+	const { data: connectionRequests } = useQuery({
+		queryKey: ["connectionRequests"],
+		queryFn: async () => {
+			const res = await axiosInstance.get("/connections/requests");
+			return res.data;
+		},
+	});
+
+	// Fetch connections
 	const { data: connections } = useQuery({
 		queryKey: ["connections"],
-		queryFn: () => axiosInstance.get("/connections"),
+		queryFn: async () => {
+			const res = await axiosInstance.get("/connections");
+			return res.data;
+		},
 	});
 
 	return (
@@ -25,13 +47,13 @@ const NetworkPage = () => {
 			</div>
 			<div className='col-span-1 lg:col-span-3'>
 				<div className='bg-secondary rounded-lg shadow p-6 mb-6'>
-					<h1 className='text-2xl font-bold mb-6'>My Network</h1>
+					<h1 className='text-2xl font-bold mb-6'>☕ My Network</h1>
 
-					{connectionRequests?.data?.length > 0 ? (
+					{connectionRequests?.length > 0 ? (
 						<div className='mb-8'>
-							<h2 className='text-xl font-semibold mb-2'>Connection Request</h2>
+							<h2 className='text-xl font-semibold mb-2'>🍂 New Connection Requests</h2>
 							<div className='space-y-4'>
-								{connectionRequests.data.map((request) => (
+								{connectionRequests.map((request) => (
 									<FriendRequest key={request.id} request={request} />
 								))}
 							</div>
@@ -48,11 +70,12 @@ const NetworkPage = () => {
 							</p>
 						</div>
 					)}
-					{connections?.data?.length > 0 && (
+
+					{connections?.length > 0 && (
 						<div className='mb-8'>
-							<h2 className='text-xl font-semibold mb-4'>My Connections</h2>
+							<h2 className='text-xl font-semibold mb-4'>👥 My Connections</h2>
 							<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
-								{connections.data.map((connection) => (
+								{connections.map((connection) => (
 									<UserCard key={connection._id} user={connection} isConnection={true} />
 								))}
 							</div>
@@ -63,4 +86,5 @@ const NetworkPage = () => {
 		</div>
 	);
 };
+
 export default NetworkPage;

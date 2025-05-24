@@ -15,6 +15,17 @@ const ProfilePage = () => {
 
 	const { data: authUser, isLoading } = useQuery({
 		queryKey: ["authUser"],
+		queryFn: async () => {
+			try {
+				const res = await axiosInstance.get("/auth/me");
+				return res.data;
+			} catch (err) {
+				if (err.response && err.response.status === 401) {
+					return null;
+				}
+				throw err;
+			}
+		},
 	});
 
 	const { data: userProfile, isLoading: isUserProfileLoading } = useQuery({
