@@ -220,7 +220,7 @@ const ProfileHeader = ({ userData, onSave, isOwnProfile }) => {
 					{isEditing ? (
 						<input
 							type='text'
-							value={editedData.headline ?? (userData.headline === "Linkedin User" ? "Member" : userData.headline)}
+							value={editedData.headline ?? (userData.headline === "Member" ? "Member" : userData.headline)}
 							onChange={(e) => setEditedData({ ...editedData, headline: e.target.value })}
 							className='text-gray-600 text-center w-full'
 						/>
