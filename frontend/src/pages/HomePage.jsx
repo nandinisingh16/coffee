@@ -107,7 +107,7 @@ const HomePage = () => {
         </div>
       )}
 
-      {/* LinkedIn-style Mobile Footer Navigation */}
+      {/* -style Mobile Footer Navigation */}
       <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-base-100 border-t border-secondary flex justify-around items-center py-2 shadow-lg">
         <Link
           to="/"
