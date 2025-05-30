@@ -12,7 +12,7 @@ function UserCard({ user, isConnection }) {
 				<h3 className='font-serif font-semibold text-lg text-center'>{user.name}</h3>
 			</Link>
 			<p className='text-coffee-dark text-center'>
-				{user.headline === "Member" ? "Member" : user.headline}
+				{user.headline === user.headline ? "Member" : user.headline}
 			</p>
 			<p className='text-sm text-coffee-dark/70 mt-2'>{user.connections?.length} connections</p>
 			<button className='mt-4 btn btn-accent flex items-center gap-2'>

@@ -14,7 +14,7 @@ export default function Sidebar({ user }) {
 					☕ Welcome back, {user.name}! 
 				</h2>
 				<p className='text-coffee-light/80'>
-					{user.headline === "Member" ? "Member" : user.headline}
+					{user.headline === user.headline ? "Member" : user.headline}
 				</p>
 			</div>
 			<nav className='w-full'>
