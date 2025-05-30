@@ -36,7 +36,7 @@ function App() {
 		<Layout>
 			<Routes>
 				
-<Route path='/jobs' element={<JobsPage />} />
+
 				<Route path='/' element={authUser ? <HomePage /> : <Navigate to={"/login"} />} />
 				<Route path='/signup' element={!authUser ? <SignUpPage /> : <Navigate to={"/"} />} />
 				<Route path='/login' element={!authUser ? <LoginPage /> : <Navigate to={"/"} />} />
@@ -44,6 +44,7 @@ function App() {
 				<Route path='/network' element={authUser ? <NetworkPage /> : <Navigate to={"/login"} />} />
 				<Route path='/post/:postId' element={authUser ? <PostPage /> : <Navigate to={"/login"} />} />
 				<Route path='/profile/:username' element={authUser ? <ProfilePage /> : <Navigate to={"/login"} />} />
+				<Route path='/jobs' element={authUser? <JobsPage /> : <Navigate to={"/login"} />} />
 			</Routes>
 			<Toaster />
 		</Layout>

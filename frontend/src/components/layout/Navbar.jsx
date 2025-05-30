@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { axiosInstance } from "../../lib/axios";
 import { Link } from "react-router-dom";
-import { Bell, Home, LogOut, User, Users, Menu } from "lucide-react";
+import { Bell, Home, LogOut, User, Users, Menu, ShoppingBag } from "lucide-react";
 import { useState } from "react";
 
 const Navbar = () => {
@@ -83,11 +83,12 @@ const Navbar = () => {
               </span>
             )}
           </Link>
+                              <Link to="/jobs" className="relative flex items-center gap-2 hover:text-accent transition duration-300">
+            <ShoppingBag  className="stroke-primary" size={24}  />  Jobs
+          </Link>
         </div>
 
-        <Link to="/jobs" className="flex items-center gap-2 py-2 px-4 rounded-xl hover:bg-coffee-light/20 transition-all">
-  <span role="img" aria-label="Jobs">💼</span> Jobs
-</Link>
+
 
         {/* User Actions Desktop */}
         <div className="hidden md:flex items-center space-x-6">
@@ -154,6 +155,10 @@ const Navbar = () => {
               </span>
             )}
           </Link>
+          
+                              <Link to="/jobs" className="relative flex items-center gap-2 hover:text-accent transition duration-300" onClick={() => setMenuOpen(false)}>
+            <ShoppingBag  className="stroke-primary" size={24}  />  Jobs
+          </Link>
           <div className="flex flex-col space-y-2 mt-4">
             {authUser ? (
               <>
@@ -165,6 +170,7 @@ const Navbar = () => {
                   <User size={28} className="stroke-primary" />
                   <span className="text-lg font-medium">{authUser.name}</span>
                 </Link>
+                
                 <button
                   onClick={() => {
                     logout();
