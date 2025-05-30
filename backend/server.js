@@ -12,9 +12,16 @@ import connectionRoutes from "./routes/connection.route.js";
 
 import { connectDB } from "./lib/db.js";
 
+import jobRoutes from "./routes/job.route.js";
+// ...existing code...
+
+
 dotenv.config();
 
 const app = express();
+
+
+
 const PORT = process.env.PORT || 5000;
 const __dirname = path.resolve();
 
@@ -35,6 +42,7 @@ app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/posts", postRoutes);
 app.use("/api/v1/notifications", notificationRoutes);
 app.use("/api/v1/connections", connectionRoutes);
+app.use("/api/v1/jobs", jobRoutes);
 
 if (process.env.NODE_ENV === "production") {
 	app.use(express.static(path.join(__dirname, "/frontend/dist")));

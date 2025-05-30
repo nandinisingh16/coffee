@@ -11,6 +11,8 @@ import NotificationsPage from "./pages/NotificationsPage";
 import NetworkPage from "./pages/NetworkPage";
 import PostPage from "./pages/PostPage";
 import ProfilePage from "./pages/ProfilePage";
+import JobsPage from "./pages/JobsPage";
+// ...existing code...
 
 function App() {
 	const { data: authUser, isLoading } = useQuery({
@@ -33,6 +35,8 @@ function App() {
 	return (
 		<Layout>
 			<Routes>
+				
+<Route path='/jobs' element={<JobsPage />} />
 				<Route path='/' element={authUser ? <HomePage /> : <Navigate to={"/login"} />} />
 				<Route path='/signup' element={!authUser ? <SignUpPage /> : <Navigate to={"/"} />} />
 				<Route path='/login' element={!authUser ? <LoginPage /> : <Navigate to={"/"} />} />

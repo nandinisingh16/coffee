@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { axiosInstance } from "../lib/axios";
 import Sidebar from "../components/Sidebar";
@@ -39,10 +40,10 @@ const HomePage = () => {
     },
   });
 
-  console.log("posts", posts);
+  const [showRecommended, setShowRecommended] = useState(false);
 
   return (
-    <div className='grid grid-cols-1 lg:grid-cols-4 gap-6 bg-[#fdf6ee] min-h-screen p-4'>
+    <div className='grid grid-cols-1 lg:grid-cols-4 gap-6 bg-[#fdf6ee] min-h-screen p-4 relative'>
       <div className='hidden lg:block lg:col-span-1'>
         <Sidebar user={authUser} />
       </div>
@@ -65,16 +66,44 @@ const HomePage = () => {
         )}
       </div>
 
-     {recommendedUsers?.length > 0 && (
-  <div className='col-span-1 lg:col-span-1 mb-6'>
-    <div className='bg-[#f4e8da] rounded-xl shadow-md p-4 border border-[#dec3a5]'>
-      <h2 className='text-lg font-semibold text-[#5a3e2b] mb-4'>Baristas & Café Owners You May Know</h2>
-      {recommendedUsers?.map((user) => (
-        <RecommendedUser key={user._id} user={user} />
-      ))}
-    </div>
-  </div>
-)}
+      {/* Desktop: always visible */}
+      {recommendedUsers?.length > 0 && (
+        <div className='hidden lg:block col-span-1 lg:col-span-1 mb-6'>
+          <div className='bg-[#f4e8da] rounded-xl shadow-md p-4 border border-[#dec3a5]'>
+            <h2 className='text-lg font-semibold text-[#5a3e2b] mb-4'>Baristas & Café Owners You May Know</h2>
+            {recommendedUsers?.map((user) => (
+              <RecommendedUser key={user._id} user={user} />
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Mobile: Button at footer */}
+      <button
+        className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 bg-accent text-white px-6 py-3 rounded-full shadow-lg font-semibold block lg:hidden"
+        onClick={() => setShowRecommended(true)}
+        style={{ minWidth: 220 }}
+      >
+        ☕ Baristas & Café Owners You May Know
+      </button>
+
+      {/* Mobile: Modal */}
+      {showRecommended && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 lg:hidden">
+          <div className="bg-[#f4e8da] rounded-xl shadow-lg p-6 w-11/12 max-w-md relative">
+            <button
+              className="absolute top-2 right-2 text-xl font-bold"
+              onClick={() => setShowRecommended(false)}
+            >
+              ×
+            </button>
+            <h2 className='text-lg font-semibold text-[#5a3e2b] mb-4'>Baristas & Café Owners You May Know</h2>
+            {recommendedUsers?.map((user) => (
+              <RecommendedUser key={user._id} user={user} />
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 };

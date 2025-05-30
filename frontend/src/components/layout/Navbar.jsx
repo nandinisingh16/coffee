@@ -85,6 +85,10 @@ const Navbar = () => {
           </Link>
         </div>
 
+        <Link to="/jobs" className="flex items-center gap-2 py-2 px-4 rounded-xl hover:bg-coffee-light/20 transition-all">
+  <span role="img" aria-label="Jobs">💼</span> Jobs
+</Link>
+
         {/* User Actions Desktop */}
         <div className="hidden md:flex items-center space-x-6">
           {authUser ? (
