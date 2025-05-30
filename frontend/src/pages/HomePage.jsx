@@ -4,8 +4,9 @@ import { axiosInstance } from "../lib/axios";
 import Sidebar from "../components/Sidebar";
 import PostCreation from "../components/PostCreation";
 import Post from "../components/Post";
-import { Coffee } from "lucide-react";
+import { Coffee, Home, Users, ShoppingBag, Bell, User as UserIcon } from "lucide-react";
 import RecommendedUser from "../components/RecommendedUser";
+import { Link, useLocation } from "react-router-dom";
 
 const HomePage = () => {
   // Provide queryFn for authUser
@@ -41,6 +42,7 @@ const HomePage = () => {
   });
 
   const [showRecommended, setShowRecommended] = useState(false);
+  const location = useLocation();
 
   return (
     <div className='grid grid-cols-1 lg:grid-cols-4 gap-6 bg-[#fdf6ee] min-h-screen p-4 relative'>
@@ -79,13 +81,13 @@ const HomePage = () => {
       )}
 
       {/* Mobile: Button at footer */}
-      <button
-        className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 bg-accent text-white px-6 py-3 rounded-full shadow-lg font-semibold block lg:hidden"
-        onClick={() => setShowRecommended(true)}
-        style={{ minWidth: 220 }}
-      >
-        ☕ Baristas & Café Owners You May Know
-      </button>
+     <button
+  className="fixed bottom-24 right-4 z-50 bg-accent text-white p-4 rounded-full shadow-lg block lg:hidden flex items-center justify-center"
+  onClick={() => setShowRecommended(true)}
+  aria-label="Baristas & Café Owners You May Know"
+>
+  <Coffee size={28} />
+</button>
 
       {/* Mobile: Modal */}
       {showRecommended && (
@@ -104,6 +106,45 @@ const HomePage = () => {
           </div>
         </div>
       )}
+
+      {/* LinkedIn-style Mobile Footer Navigation */}
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-base-100 border-t border-secondary flex justify-around items-center py-2 shadow-lg">
+        <Link
+          to="/"
+          className={`flex flex-col items-center text-xs font-semibold ${location.pathname === "/" ? "text-accent" : "text-neutral"} transition`}
+        >
+          <Home size={24} />
+          Home
+        </Link>
+        <Link
+          to="/network"
+          className={`flex flex-col items-center text-xs font-semibold ${location.pathname === "/network" ? "text-accent" : "text-neutral"} transition`}
+        >
+          <Users size={24} />
+          My Network
+        </Link>
+        <Link
+          to="/jobs"
+          className={`flex flex-col items-center text-xs font-semibold ${location.pathname === "/jobs" ? "text-accent" : "text-neutral"} transition`}
+        >
+          <ShoppingBag size={24} />
+          Jobs
+        </Link>
+        <Link
+          to="/notifications"
+          className={`flex flex-col items-center text-xs font-semibold ${location.pathname === "/notifications" ? "text-accent" : "text-neutral"} transition`}
+        >
+          <Bell size={24} />
+          Notifications
+        </Link>
+        <Link
+          to={authUser ? `/profile/${authUser.username}` : "/login"}
+          className={`flex flex-col items-center text-xs font-semibold ${location.pathname.startsWith("/profile") ? "text-accent" : "text-neutral"} transition`}
+        >
+          <UserIcon size={24} />
+          Profile
+        </Link>
+      </nav>
     </div>
   );
 };
